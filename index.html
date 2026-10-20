@@ -33,8 +33,8 @@
       nav a:hover:after{transform:scaleX(1);transform-origin:left}
 
             /* --- HERO (versi flip card) --- */
-      .hero{min-height:82vh;padding:110px 8vw 90px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;position:relative;border-bottom:1px solid var(--line);background:radial-gradient(ellipse at 85% 25%,rgba(168,106,47,.08),transparent 55%),var(--paper)}
-      .hero-content{display:flex;flex-direction:column;align-items:center;gap:24px}
+      .hero{min-height:82vh;padding:110px 8vw 90px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;position:relative;border-bottom:1px solid var(--line);background:radial-gradient(ellipse at 85% 25%,rgba(168,106,47,.08),transparent 55%),var(--paper);overflow:hidden}
+.hero-content{display:flex;flex-direction:column;align-items:center;gap:24px;position:relative;z-index:1}
       .hero-hint{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);opacity:.65;margin:0;text-align:center}
       .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
@@ -112,7 +112,23 @@
         .profile-card__tagline { font-size: .85rem; max-width: 220px; }
       }
       @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
-
+        
+            /* --- Shape Grid (hero background) --- */
+      #hero-shape-grid {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      #hero-shape-grid .shape-grid-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        transform-origin: 0 0;
+      }
+      
             /* ============ FLIP CARD ============ */
       .flip-card {
         --fc-w: 360px;
@@ -265,6 +281,7 @@
 
     <!-- HERO -->
     <header class="hero">
+        <div id="hero-shape-grid"></div>
         <div class="hero-content">
             <h1 class="visually-hidden">Mukhlisin Niamillah — Trader &amp; Investor, Stockmarket Analyst</h1>
             <div id="profile-flip"></div>
@@ -482,6 +499,37 @@
         });
       });
     </script>
-
+    
+    <!-- Shape Grid (hero background) -->
+    <script src="shape-grid.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var container = document.getElementById('hero-shape-grid');
+        if (!container || !window.ShapeGrid) return;
+        window.ShapeGrid.create(container, {
+          shape: 'square',
+          cellSize: 50,
+          lineWidth: 1,
+          direction: 'diagonal',
+          speed: 0.3,
+          lineColor: '#ddd6c9',
+          hoverColor: '#a86a2f',
+          hoverFillColor: '#a86a2f',
+          fillOpacity: 0.08,
+          rainbow: false,
+          tiltX: 0,
+          tiltY: 0,
+          radius: 1.2,
+          trail: 0.5,
+          glow: 0.25,
+          twinkle: 0,
+          fade: 0.8,
+          clickCascade: false,
+          intro: true,
+          opacity: 1,
+          backgroundColor: 'transparent'
+        });
+      });
+    </script>
 </body>
 </html>
